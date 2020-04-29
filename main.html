@@ -10,28 +10,38 @@
     <script src='main.js'></script>
 </head>
 
-<body onload="prepare_quiz()">
+<body>
 
 
     <div class='grid-container' id="main-container">
 
-        <div class="intro-container">
+        <div id='scoreboard-container' class=''>
+
+        </div>
+
+        <div class="intro-container card">
             <p>Rozwiąż ten quiz, zasady są proste: odpowiedz na pytania
                 a jak odpowiesz na wszystkie to zakończ quiz. Z fartem!
             </p>
 
-            <div style="text-align: center;" id='start-container'>
-                <button onclick="start_quiz()">START QUIZ</button>
-            </div>
+
 
         </div>
 
         <div id='question-container' class='card'>
 
+            <div id='image-board-container'>
+                <img src="tablica.jpg" style="width: 100%; height: 100%;">
+            </div>
+
+            <div style="text-align: center;" id='start-container'>
+                <button onclick="start_quiz()">START QUIZ</button>
+            </div>
+
             <div id='questions'>
             </div>
 
-            <div class="grid-container" id='button-container'>
+            <div class="grid-container hidden" id='button-container'>
                 <div id="container-prvs">
                     <button class="prvs" onclick="prvs_question()">Poprzednie</button>
                 </div>
@@ -47,7 +57,11 @@
         </div>
 
         <div id="timer-container" class="timer">
-            <img src="zegar.jpg" style="width: 100%;">
+            <div id='time-display'>
+                <span id='minutes'>00</span>:
+                <span id='seconds'>00</span>:
+                <span id='cseconds'>00</span>
+            </div>
         </div>
     </div>
 

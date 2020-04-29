@@ -84,7 +84,13 @@ function prvs_question() {
 
 function start_quiz() {
 	currentQuestion = 0
+	document.getElementById('image-board-container').classList.add('hidden')
+	document.getElementById('start-container').classList.add('hidden')
+
+	prepare_quiz()
+
 	questions[0].classList.remove('hidden')
+	document.getElementById('button-container').classList.remove('hidden')
 }
 
 
