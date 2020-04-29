@@ -20,21 +20,23 @@
                 a jak odpowiesz na wszystkie to zakończ quiz. Z fartem!
             </p>
 
+            <div style="text-align: center;" id='start-container'>
+                <button onclick="start_quiz()">START QUIZ</button>
+            </div>
+
         </div>
 
-        <div class='question-container card'>
+        <div id='question-container' class='card'>
+
             <div id='questions'>
-                <h1 class='question-number'>Pytanie 1</h1>
-                <p>Kara za błędną odpowiedź: 5s</p>
-                <label class='question'>2 + 2 = </label><input type="number">
             </div>
 
             <div class="grid-container" id='button-container'>
                 <div id="container-prvs">
-                    <button class="prvs">Poprzednie</button>
+                    <button class="prvs" onclick="prvs_question()">Poprzednie</button>
                 </div>
                 <div id="container-next">
-                    <button class="next">Nastęne</button>
+                    <button class="next" onclick="next_question()">Nastęne</button>
                 </div>
                 <div id="container-finish">
                     <button class="finish-locked" disabled>Zakończ</button>
@@ -44,7 +46,7 @@
             </div>
         </div>
 
-        <div class="timer timer-container">
+        <div id="timer-container" class="timer">
             <img src="zegar.jpg" style="width: 100%;">
         </div>
     </div>

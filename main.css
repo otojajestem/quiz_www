@@ -18,7 +18,7 @@
   color: #eb7206;
 }
 
-.question{
+.question-content{
   font-size: xx-large;
 }
 
@@ -52,6 +52,10 @@ button {
   cursor: pointer;
 }
 
+.hidden{
+  display: none;
+}
+
 .prvs, .next{
   border: solid #e37c54 2px;
   background-color: white;
@@ -79,7 +83,7 @@ button.finish{
   grid-gap: 15px;
 }
 
-.question-container{
+#question-container{
   box-sizing: border-box;
   grid-area: question;
   width: 100%;
@@ -90,7 +94,7 @@ button.finish{
   width: 100%;
 }
 
-.timer-container{
+#timer-container{
   width: 100%;
   grid-area: timer;
 }

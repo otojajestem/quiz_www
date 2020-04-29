@@ -38,24 +38,53 @@ type Question = {
 
 };
 
-function render_question(acc: string, q: Question, i: number) {
-	return acc + `<h1 class='question-number'>Pytanie ` + (i + 1) + `</h1>
-		<p>Kara za błędną odpowiedź: `+ q.penalty + `s</p>
-		<label class='question'>`+ q.content + `=</label><input type="number">`
-}
-
 type Quiz = {
 	questions: Question[]
 };
 
 let quiz: Quiz
+let container: HTMLElement
+let questions: HTMLCollection
+let currentQuestion: number = 0
+let maxQuestion: number
 
+function render_question(acc: string, q: Question, i: number) {
+	return acc + `<div class='question hidden'><h1 class='question-number'>Pytanie ` + (i + 1) + `</h1>
+		<p>Kara za błędną odpowiedź: `+ q.penalty + `s</p>
+		<label class='question-content'>`+ q.content + `=</label><input type="number"></div>`
+}
 
 function prepare_quiz() {
 	quiz = JSON.parse(JSONString);
-
-	let container = document.getElementById('questions')
+	container = document.getElementById('questions')
 	container.innerHTML = quiz.questions.reduce(render_question, ``)
+	maxQuestion = quiz.questions.length - 1
+	questions = document.getElementsByClassName('question')
+}
+
+function next_question() {
+	if (currentQuestion === maxQuestion)
+		return
+
+	questions[currentQuestion].classList.add('hidden')
+	currentQuestion++
+	questions[currentQuestion].classList.remove('hidden')
 
 }
+
+function prvs_question() {
+	if (currentQuestion === 0)
+		return
+
+	questions[currentQuestion].classList.add('hidden')
+	currentQuestion--
+	questions[currentQuestion].classList.remove('hidden')
+
+}
+
+function start_quiz() {
+	currentQuestion = 0
+	questions[0].classList.remove('hidden')
+}
+
 
