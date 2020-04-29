@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>QUIZ</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+
+<body onload="prepare_quiz()">
+
+
+    <div class='grid-container' id="main-container">
+
+        <div class="intro-container">
+            <p>Rozwiąż ten quiz, zasady są proste: odpowiedz na pytania
+                a jak odpowiesz na wszystkie to zakończ quiz. Z fartem!
+            </p>
+
+        </div>
+
+        <div class='question-container card'>
+            <div id='questions'>
+                <h1 class='question-number'>Pytanie 1</h1>
+                <p>Kara za błędną odpowiedź: 5s</p>
+                <label class='question'>2 + 2 = </label><input type="number">
+            </div>
+
+            <div class="grid-container" id='button-container'>
+                <div id="container-prvs">
+                    <button class="prvs">Poprzednie</button>
+                </div>
+                <div id="container-next">
+                    <button class="next">Nastęne</button>
+                </div>
+                <div id="container-finish">
+                    <button class="finish-locked" disabled>Zakończ</button>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="timer timer-container">
+            <img src="zegar.jpg" style="width: 100%;">
+        </div>
+    </div>
+
+</body>
+
+</html>
