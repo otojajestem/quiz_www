@@ -44,14 +44,12 @@ type Quiz = {
 
 let quiz: Quiz
 let container: HTMLElement
-let cseconds: HTMLElement
-let seconds: HTMLElement
-let minutes: HTMLElement
 let questions: HTMLCollection
 let currentQuestion: number = 0
 let maxQuestion: number
 let interval: number
 let startTime: number
+let input: HTMLCollection
 
 function render_question(acc: string, q: Question, i: number) {
 	return acc + `<div class='question hidden'><h1 class='question-number'>Pytanie ` + (i + 1) + `/` + (maxQuestion + 1) + `</h1>
@@ -59,13 +57,6 @@ function render_question(acc: string, q: Question, i: number) {
 		<label class='question-content'>`+ q.content + `=</label><input type="number"></div>`
 }
 
-function prepare_quiz() {
-	quiz = JSON.parse(JSONString);
-	container = document.getElementById('questions')
-	maxQuestion = quiz.questions.length - 1
-	container.innerHTML = quiz.questions.reduce(render_question, ``)
-	questions = document.getElementsByClassName('question')
-}
 
 function next_question() {
 	if (currentQuestion === maxQuestion)
@@ -111,7 +102,11 @@ function start_quiz() {
 	document.getElementById('image-board-container').classList.add('hidden')
 	document.getElementById('start-container').classList.add('hidden')
 
-	prepare_quiz()
+	quiz = JSON.parse(JSONString);
+	container = document.getElementById('questions')
+	maxQuestion = quiz.questions.length - 1
+	container.innerHTML = quiz.questions.reduce(render_question, ``)
+	questions = document.getElementsByClassName('question')
 
 	questions[0].classList.remove('hidden')
 	document.getElementById('button-container').classList.remove('hidden')
@@ -119,12 +114,23 @@ function start_quiz() {
 	document.getElementById('next').classList.remove('invisible')
 	document.getElementById('prvs').classList.add('invisible')
 
-	cseconds = document.getElementById('cseconds')
-	minutes = document.getElementById('minutes')
-	seconds = document.getElementById('seconds')
+	const finishButton = document.getElementById('finishButton');
+	(finishButton as HTMLButtonElement).disabled = true
+	finishButton.classList.add('invisible')
+
+	input = document.getElementsByTagName('input')
+
 	const date = new Date()
 	startTime = date.getTime()
 	interval = set_interval_and_execute(tick, 10)
+}
+
+function quick_check() {
+	for (let i = 0; i < quiz.questions.length; i++) {
+		if ((input[i] as HTMLInputElement).value === ``)
+			return false
+	}
+	return true
 }
 
 
@@ -132,11 +138,19 @@ function start_quiz() {
 function tick() {
 	const date = new Date()
 	document.getElementById('time-display').innerText = render_time(date.getTime() - startTime)
+
+	const finishButton = document.getElementById('finishButton');
+	if (quick_check()) {
+
+		(finishButton as HTMLButtonElement).disabled = false
+		finishButton.classList.remove('invisible')
+	} else {
+		(finishButton as HTMLButtonElement).disabled = true
+	}
 }
 
 
 function check_answers() {
-	const input: HTMLCollection = document.getElementsByTagName('input')
 	let res = 0
 
 	for (let i = 0; i < quiz.questions.length; i++) {

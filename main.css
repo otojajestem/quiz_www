@@ -56,9 +56,13 @@ button {
   background-color: #fff0f0;
 }
 
-.function-button:hover{
+.function-button:hover:enabled{
   color: white;
   background-color: #eca069;  
+} 
+
+button:disabled{
+  cursor: not-allowed;
 }
 
 #prvs, #next{
@@ -69,12 +73,17 @@ button {
 #time-display{
   text-align: center;
 font-size: 55px;
+margin: auto;
 font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
 }
 
 #score-display{
   font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
   font-size: 54px;
+}
+
+li{
+  font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
 }
 
 #prvs:hover, #next:hover{
@@ -95,6 +104,19 @@ button.finish{
   width: 100%;
   display: grid;
   grid-gap: 15px;
+}
+
+.important-info{
+  width: 100%;
+background: antiquewhite;
+padding: 30px;
+color: black;
+}
+
+.more-important{
+  background: #fd9583;
+padding: 30px;
+height: 200px;
 }
 
 .invisible{

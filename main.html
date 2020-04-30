@@ -17,6 +17,18 @@
 
         <div id='scoreboard-container' class=''>
 
+            <div class="important-info" style="width: 100%;">
+                <h3>Najlepsze wyniki:</h3>
+                <ol>
+                    <li>21:37:00</li>
+                    <li>22:37:00</li>
+                    <li>--:--:--</li>
+                    <li>--:--:--</li>
+                    <li>--:--:--</li>
+
+                </ol>
+            </div>
+
         </div>
 
         <div class="intro-container card">
@@ -59,7 +71,7 @@
                     <button id="next" onclick="next_question()">Nastęne</button>
                 </div>
                 <div id="container-finish">
-                    <button onclick="try_finish()" class="function-button">Zakończ</button>
+                    <button id='finishButton' onclick="try_finish()" class="function-button">Zakończ</button>
                 </div>
 
 
@@ -67,9 +79,12 @@
         </div>
 
         <div id="timer-container" class="timer">
-            <p id='time-display'>
-                00:00:00
-            </p>
+            <div class="more-important">
+                <p id='time-display'>
+                    00:00:00
+                </p>
+            </div>
+
         </div>
     </div>
 
