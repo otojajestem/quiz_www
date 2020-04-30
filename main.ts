@@ -4,27 +4,27 @@ let JSONString = `
 	"questions": [{
 			"penalty": 5,
 			"content": "2+2",
-			"answer": 4
+			"answer": "4"
 		},
 		{
 			"penalty": 6,
 			"content": "2+2*2",
-			"answer": 6
+			"answer": "6"
 		},
 		{
 			"penalty": 7,
 			"content": "(2+2)*2",
-			"answer": 8
+			"answer": "8"
 		},
 		{
 			"penalty": 8,
 			"content": "2+2*2+2",
-			"answer": 8
+			"answer": "8"
 		},
 		{
 			"penalty": 9,
 			"content": "2+2^2*2+2",
-			"answer": 12
+			"answer": "12"
 		}
 	]
 
@@ -34,7 +34,7 @@ let JSONString = `
 type Question = {
 	penalty: number;
 	content: string;
-	answer: number;
+	answer: string;
 
 };
 
@@ -54,7 +54,7 @@ let interval: number
 let startTime: number
 
 function render_question(acc: string, q: Question, i: number) {
-	return acc + `<div class='question hidden'><h1 class='question-number'>Pytanie ` + (i + 1) + `</h1>
+	return acc + `<div class='question hidden'><h1 class='question-number'>Pytanie ` + (i + 1) + `/` + (maxQuestion + 1) + `</h1>
 		<p>Kara za błędną odpowiedź: `+ q.penalty + `s</p>
 		<label class='question-content'>`+ q.content + `=</label><input type="number"></div>`
 }
@@ -62,8 +62,8 @@ function render_question(acc: string, q: Question, i: number) {
 function prepare_quiz() {
 	quiz = JSON.parse(JSONString);
 	container = document.getElementById('questions')
-	container.innerHTML = quiz.questions.reduce(render_question, ``)
 	maxQuestion = quiz.questions.length - 1
+	container.innerHTML = quiz.questions.reduce(render_question, ``)
 	questions = document.getElementsByClassName('question')
 }
 
@@ -71,9 +71,15 @@ function next_question() {
 	if (currentQuestion === maxQuestion)
 		return
 
+	if (currentQuestion === 0)
+		document.getElementById('prvs').classList.remove('invisible')
+
 	questions[currentQuestion].classList.add('hidden')
 	currentQuestion++
 	questions[currentQuestion].classList.remove('hidden')
+
+	if (currentQuestion === maxQuestion)
+		document.getElementById('next').classList.add('invisible')
 
 }
 
@@ -81,9 +87,17 @@ function prvs_question() {
 	if (currentQuestion === 0)
 		return
 
+	if (currentQuestion === maxQuestion)
+		document.getElementById('next').classList.remove('invisible')
+
 	questions[currentQuestion].classList.add('hidden')
 	currentQuestion--
 	questions[currentQuestion].classList.remove('hidden')
+
+	if (currentQuestion === 0)
+		document.getElementById('prvs').classList.add('inivisible')
+
+
 
 }
 
@@ -102,6 +116,9 @@ function start_quiz() {
 	questions[0].classList.remove('hidden')
 	document.getElementById('button-container').classList.remove('hidden')
 
+	document.getElementById('next').classList.remove('invisible')
+	document.getElementById('prvs').classList.add('invisible')
+
 	cseconds = document.getElementById('cseconds')
 	minutes = document.getElementById('minutes')
 	seconds = document.getElementById('seconds')
@@ -114,29 +131,77 @@ function start_quiz() {
 
 function tick() {
 	const date = new Date()
-	displayTime(date.getTime() - startTime)
+	document.getElementById('time-display').innerText = render_time(date.getTime() - startTime)
 }
 
 
-function displayTime(ctime) {
-	ctime = Math.floor(ctime / 10)
+function check_answers() {
+	const input: HTMLCollection = document.getElementsByTagName('input')
+	let res = 0
 
-	const min = Math.floor(ctime / 6000)
-	ctime -= min * 6000
-	const sec = Math.floor(ctime / 100)
-	ctime -= sec * 100
+	for (let i = 0; i < quiz.questions.length; i++) {
+		if ((input[i] as HTMLInputElement).value === ``)
+			return -1
+		if ((input[i] as HTMLInputElement).value !== quiz.questions[i].answer)
+			res += quiz.questions[i].penalty
+		console.log((input[i] as HTMLInputElement).value + ` ` + quiz.questions[i].answer)
+	}
+
+	return res
+}
+
+function try_finish() {
+	const date = new Date()
+
+	const penalty: number = check_answers()
+
+	if (penalty === -1)
+		return
+
+
+	clearInterval(interval)
+
+	document.getElementById('after-quiz').classList.remove('hidden')
+	document.getElementById('button-container').classList.add('hidden')
+	document.getElementById('timer-container').classList.add('hidden')
+	document.getElementById('questions').innerHTML = ``
+
+	document.getElementById('score-display').innerText = render_time((date.getTime() - startTime) + 1000 * penalty)
+
+
+}
+
+function render_time(score: number) {
+	score = Math.floor(score / 10)
+
+	const min = Math.floor(score / 60 / 100)
+	score -= min * 60 * 100
+	const sec = Math.floor(score / 100)
+	score -= sec * 100
+
+	let res = ``
+
 	if (min < 10)
-		minutes.innerText = `0` + min
-	else
-		minutes.innerText = `` + min
+		res += `0`
+	res += min + `:`
 
 	if (sec < 10)
-		seconds.innerText = `0` + sec
-	else
-		seconds.innerText = `` + sec
+		res += `0`
+	res += sec + `:`
 
-	if (ctime < 10)
-		cseconds.innerText = `0` + ctime
-	else
-		cseconds.innerText = ctime + ``
+	if (score < 10)
+		res += `0`
+	res += score + ``
+
+	return res
+}
+
+
+function reset() {
+	document.getElementById('image-board-container').classList.remove('hidden')
+	document.getElementById('start-container').classList.remove('hidden')
+	document.getElementById('timer-container').classList.remove('hidden')
+	document.getElementById('after-quiz').classList.add(`hidden`)
+	document.getElementById('time-display').innerText = `00:00:00`
+
 }

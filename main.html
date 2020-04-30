@@ -35,21 +35,31 @@
             </div>
 
             <div style="text-align: center;" id='start-container'>
-                <button onclick="start_quiz()">START QUIZ</button>
+                <button class='function-button' onclick="start_quiz()">START QUIZ</button>
             </div>
 
             <div id='questions'>
             </div>
 
+            <div id='after-quiz' class="hidden">
+
+                <div style="text-align: center;">
+                    <p id='score-text'>Twój wynik to:</p>
+                    <p id='score-display'>21:37:00</p>
+                </div>
+
+                <button class="function-button" onclick='reset()'>Jeszcze raz</button>
+            </div>
+
             <div class="grid-container hidden" id='button-container'>
                 <div id="container-prvs">
-                    <button class="prvs" onclick="prvs_question()">Poprzednie</button>
+                    <button id="prvs" onclick="prvs_question()">Poprzednie</button>
                 </div>
                 <div id="container-next">
-                    <button class="next" onclick="next_question()">Nastęne</button>
+                    <button id="next" onclick="next_question()">Nastęne</button>
                 </div>
                 <div id="container-finish">
-                    <button class="finish-locked" disabled>Zakończ</button>
+                    <button onclick="try_finish()" class="function-button">Zakończ</button>
                 </div>
 
 
@@ -57,11 +67,9 @@
         </div>
 
         <div id="timer-container" class="timer">
-            <div id='time-display'>
-                <span id='minutes'>00</span>:
-                <span id='seconds'>00</span>:
-                <span id='cseconds'>00</span>
-            </div>
+            <p id='time-display'>
+                00:00:00
+            </p>
         </div>
     </div>
 

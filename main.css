@@ -52,7 +52,16 @@ button {
   cursor: pointer;
 }
 
-.prvs, .next{
+.function-button{
+  background-color: #fff0f0;
+}
+
+.function-button:hover{
+  color: white;
+  background-color: #eca069;  
+}
+
+#prvs, #next{
   border: solid #e37c54 2px;
   background-color: white;
 }
@@ -63,7 +72,12 @@ font-size: 55px;
 font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
 }
 
-.prvs:hover, .next:hover{
+#score-display{
+  font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+  font-size: 54px;
+}
+
+#prvs:hover, #next:hover{
   background-color: #e37c54;
   color: white;
 }
@@ -81,6 +95,10 @@ button.finish{
   width: 100%;
   display: grid;
   grid-gap: 15px;
+}
+
+.invisible{
+  visibility: hidden;
 }
 
 #question-container{
