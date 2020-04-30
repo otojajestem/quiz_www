@@ -10,7 +10,7 @@
     <script src='main.js'></script>
 </head>
 
-<body>
+<body onload="setTimeout(0, initiate_scores())">
 
 
     <div class='grid-container' id="main-container">
@@ -19,11 +19,7 @@
 
             <div class="important-info" style="width: 100%;">
                 <h3>Najlepsze wyniki:</h3>
-                <ol>
-                    <li>21:37:00</li>
-                    <li>22:37:00</li>
-                    <li>--:--:--</li>
-                    <li>--:--:--</li>
+                <ol id='score-list'>
                     <li>--:--:--</li>
                 </ol>
             </div>

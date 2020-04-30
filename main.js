@@ -7,6 +7,29 @@ var maxQuestion;
 var interval;
 var startTime;
 var input;
+var scoreboard;
+function score_to_string(acc, el, i) {
+    return acc + "<li>" + render_time(el) + "</li>";
+}
+function initiate_scores() {
+    if (localStorage.getItem('scores') === null) {
+        document.getElementById('score-list').innerHTML = "<li>--:--:--</li>";
+        scoreboard = [];
+        return;
+    }
+    scoreboard = JSON.parse(localStorage.getItem('scores'));
+    populate_scoreboard();
+}
+function populate_scoreboard() {
+    document.getElementById('score-list').innerHTML = scoreboard.reduce(score_to_string, "");
+}
+function update_and_save_scores(x) {
+    scoreboard.push(x);
+    scoreboard.sort(function (a, b) { return a - b; });
+    populate_scoreboard();
+    localStorage.setItem('scores', JSON.stringify(scoreboard));
+    console.log(scoreboard);
+}
 function render_question(acc, q, i) {
     return acc + "<div class='question hidden'><h1 class='question-number'>Pytanie " + (i + 1) + "/" + (maxQuestion + 1) + "</h1>\n\t\t<p>Kara za b\u0142\u0119dn\u0105\u00A0odpowied\u017A: " + q.penalty + "s</p>\n\t\t<label class='question-content'>" + q.content + "=</label><input type=\"number\"></div>";
 }
@@ -82,7 +105,6 @@ function check_answers() {
             return -1;
         if (input[i].value !== quiz.questions[i].answer)
             res += quiz.questions[i].penalty;
-        console.log(input[i].value + " " + quiz.questions[i].answer);
     }
     return res;
 }
@@ -96,7 +118,9 @@ function try_finish() {
     document.getElementById('button-container').classList.add('hidden');
     document.getElementById('timer-container').classList.add('hidden');
     document.getElementById('questions').innerHTML = "";
-    document.getElementById('score-display').innerText = render_time((date.getTime() - startTime) + 1000 * penalty);
+    var currSscore = (date.getTime() - startTime) + 1000 * penalty;
+    document.getElementById('score-display').innerText = render_time(currSscore);
+    update_and_save_scores(currSscore);
 }
 function render_time(score) {
     score = Math.floor(score / 10);
