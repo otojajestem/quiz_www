@@ -1,3 +1,12 @@
+body{
+  text-align: center;
+}
+
+#main-container{
+  text-align: left;
+  max-width: 1600px;
+  margin: auto;
+}
 
 div{
   box-sizing: border-box;
@@ -165,7 +174,8 @@ height: 200px;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-areas: 
     'scoreboard intro .'
-    'scoreboard question timer';
+    'scoreboard question timer'
+    'scoreboard . .';
   }
   
   #button-container{
