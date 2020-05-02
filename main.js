@@ -1,4 +1,31 @@
-var JSONString = "\n{\n\t\"questions\": [{\n\t\t\t\"penalty\": 5,\n\t\t\t\"content\": \"2+2\",\n\t\t\t\"answer\": \"4\"\n\t\t},\n\t\t{\n\t\t\t\"penalty\": 6,\n\t\t\t\"content\": \"2+2*2\",\n\t\t\t\"answer\": \"6\"\n\t\t},\n\t\t{\n\t\t\t\"penalty\": 7,\n\t\t\t\"content\": \"(2+2)*2\",\n\t\t\t\"answer\": \"8\"\n\t\t},\n\t\t{\n\t\t\t\"penalty\": 8,\n\t\t\t\"content\": \"2+2*2+2\",\n\t\t\t\"answer\": \"8\"\n\t\t},\n\t\t{\n\t\t\t\"penalty\": 9,\n\t\t\t\"content\": \"2+2^2*2+2\",\n\t\t\t\"answer\": \"12\"\n\t\t}\n\t]\n\n}\n";
+var JSONQuiz = {
+    "questions": [{
+            "penalty": 5,
+            "content": "2+2",
+            "answer": "4"
+        },
+        {
+            "penalty": 6,
+            "content": "2+2*2",
+            "answer": "6"
+        },
+        {
+            "penalty": 7,
+            "content": "(2+2)*2",
+            "answer": "8"
+        },
+        {
+            "penalty": 8,
+            "content": "2+2*2+2",
+            "answer": "8"
+        },
+        {
+            "penalty": 9,
+            "content": "2+2^2*2+2",
+            "answer": "12"
+        }
+    ]
+};
 var quiz;
 var container;
 var questions;
@@ -62,7 +89,7 @@ function start_quiz() {
     currentQuestion = 0;
     document.getElementById('image-board-container').classList.add('hidden');
     document.getElementById('start-container').classList.add('hidden');
-    quiz = JSON.parse(JSONString);
+    quiz = JSONQuiz;
     container = document.getElementById('questions');
     maxQuestion = quiz.questions.length - 1;
     container.innerHTML = quiz.questions.reduce(render_question, "");
@@ -114,10 +141,10 @@ function try_finish() {
     if (penalty === -1)
         return;
     clearInterval(interval);
-    document.getElementById('after-quiz').classList.remove('hidden');
     document.getElementById('button-container').classList.add('hidden');
     document.getElementById('timer-container').classList.add('hidden');
     document.getElementById('questions').innerHTML = "";
+    document.getElementById('after-quiz').classList.remove('hidden');
     var currSscore = (date.getTime() - startTime) + 1000 * penalty;
     document.getElementById('score-display').innerText = render_time(currSscore);
     update_and_save_scores(currSscore);
@@ -146,4 +173,10 @@ function reset() {
     document.getElementById('timer-container').classList.remove('hidden');
     document.getElementById('after-quiz').classList.add("hidden");
     document.getElementById('time-display').innerText = "00:00:00";
+}
+function cancel() {
+    clearInterval(interval);
+    document.getElementById('questions').innerHTML = "";
+    document.getElementById('button-container').classList.add('hidden');
+    reset();
 }

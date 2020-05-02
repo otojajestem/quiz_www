@@ -1,35 +1,35 @@
 
-let JSONString = `
+let JSONQuiz =
 {
 	"questions": [{
-			"penalty": 5,
-			"content": "2+2",
-			"answer": "4"
-		},
-		{
-			"penalty": 6,
-			"content": "2+2*2",
-			"answer": "6"
-		},
-		{
-			"penalty": 7,
-			"content": "(2+2)*2",
-			"answer": "8"
-		},
-		{
-			"penalty": 8,
-			"content": "2+2*2+2",
-			"answer": "8"
-		},
-		{
-			"penalty": 9,
-			"content": "2+2^2*2+2",
-			"answer": "12"
-		}
+		"penalty": 5,
+		"content": "2+2",
+		"answer": "4"
+	},
+	{
+		"penalty": 6,
+		"content": "2+2*2",
+		"answer": "6"
+	},
+	{
+		"penalty": 7,
+		"content": "(2+2)*2",
+		"answer": "8"
+	},
+	{
+		"penalty": 8,
+		"content": "2+2*2+2",
+		"answer": "8"
+	},
+	{
+		"penalty": 9,
+		"content": "2+2^2*2+2",
+		"answer": "12"
+	}
 	]
 
 }
-`
+
 
 
 type Question = {
@@ -132,7 +132,7 @@ function start_quiz() {
 	document.getElementById('image-board-container').classList.add('hidden')
 	document.getElementById('start-container').classList.add('hidden')
 
-	quiz = JSON.parse(JSONString);
+	quiz = JSONQuiz
 	container = document.getElementById('questions')
 	maxQuestion = quiz.questions.length - 1
 	container.innerHTML = quiz.questions.reduce(render_question, ``)
@@ -204,10 +204,10 @@ function try_finish() {
 
 	clearInterval(interval)
 
-	document.getElementById('after-quiz').classList.remove('hidden')
 	document.getElementById('button-container').classList.add('hidden')
 	document.getElementById('timer-container').classList.add('hidden')
 	document.getElementById('questions').innerHTML = ``
+	document.getElementById('after-quiz').classList.remove('hidden')
 
 	const currSscore = (date.getTime() - startTime) + 1000 * penalty
 
@@ -248,4 +248,11 @@ function reset() {
 	document.getElementById('after-quiz').classList.add(`hidden`)
 	document.getElementById('time-display').innerText = `00:00:00`
 
+}
+
+function cancel() {
+	clearInterval(interval)
+	document.getElementById('questions').innerHTML = ``
+	document.getElementById('button-container').classList.add('hidden')
+	reset()
 }

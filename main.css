@@ -61,6 +61,17 @@ button {
   cursor: pointer;
 }
 
+button.cancel{
+  background-color: #f2dbdb;
+  height: 30px;
+  padding: inherit;
+}
+
+button.cancel:hover{
+  border: solid 1px #f2dbdb;
+  background-color: white;
+}
+
 .function-button{
   background-color: #fff0f0;
 }
@@ -153,6 +164,11 @@ height: 200px;
   grid-area: prvs;
 }
 
+#container-cancel{
+  width: 100%;
+  grid-area: cancel;
+}
+
 #container-next{
   width: 100%;
   grid-area: next;
@@ -181,6 +197,7 @@ height: 200px;
   #button-container{
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas:
+    'cancel cancel cancel'
     'prvs . next'
     'finish finish finish';
   }
@@ -192,7 +209,7 @@ height: 200px;
   }
   #button-container{
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: 'prvs next' 'finish finish';
+    grid-template-areas: 'cancel cancel''prvs next' 'finish finish';
   }
 
   #main-container{
@@ -204,7 +221,8 @@ height: 200px;
 @media screen and (max-width: 450px){
   #button-container{
     grid-template-columns: 1fr;
-    grid-template-areas: 
+    grid-template-areas:
+    'cancel' 
     'prvs'
     'next'
     'finish';
