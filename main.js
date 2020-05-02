@@ -80,7 +80,8 @@ function prvs_question() {
     currentQuestion--;
     questions[currentQuestion].classList.remove('hidden');
     if (currentQuestion === 0)
-        document.getElementById('prvs').classList.add('inivisible');
+        document.getElementById('prvs').classList.add('invisible');
+    console.log(currentQuestion);
 }
 function set_interval_and_execute(fn, intervalValue) {
     return setInterval(fn, intervalValue);

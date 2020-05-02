@@ -63,6 +63,7 @@ button {
 
 button.cancel{
   background-color: #f2dbdb;
+  border: solid 1px #f2dbdb;
   height: 30px;
   padding: inherit;
 }

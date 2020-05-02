@@ -116,8 +116,9 @@ function prvs_question() {
 	questions[currentQuestion].classList.remove('hidden')
 
 	if (currentQuestion === 0)
-		document.getElementById('prvs').classList.add('inivisible')
+		document.getElementById('prvs').classList.add('invisible')
 
+	console.log(currentQuestion)
 
 
 }
