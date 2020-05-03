@@ -19,6 +19,24 @@ div{
   padding: 15px;
 }
 
+table {
+  border-collapse: collapse;
+  margin: auto;
+  font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+}
+
+tr {
+  border-bottom: 1px solid #ffe8d7;
+}
+
+th{
+  color: #d85d13;
+}
+
+td, th{
+  padding: 15px;
+}
+
 .container {
   padding: 2px 16px;
 }
@@ -236,5 +254,9 @@ height: 200px;
 
 .hidden{
   display: none;
+}
+
+.wrong-answer{
+  color: red;
 }
 

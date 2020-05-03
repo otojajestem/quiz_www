@@ -23,6 +23,11 @@ var JSONQuiz = {
             "penalty": 9,
             "content": "2+2^2*2+2",
             "answer": "12"
+        },
+        {
+            "penalty": 69,
+            "content": "400 + 20",
+            "answer": "420"
         }
     ]
 };
@@ -55,7 +60,6 @@ function update_and_save_scores(x) {
     scoreboard.sort(function (a, b) { return a - b; });
     populate_scoreboard();
     localStorage.setItem('scores', JSON.stringify(scoreboard));
-    console.log(scoreboard);
 }
 function render_question(acc, q, i) {
     return acc + "<div class='question hidden'><h1 class='question-number'>Pytanie " + (i + 1) + "/" + (maxQuestion + 1) + "</h1>\n\t\t<p>Kara za b\u0142\u0119dn\u0105\u00A0odpowied\u017A: " + q.penalty + "s</p>\n\t\t<label class='question-content'>" + q.content + "=</label><input type=\"number\"></div>";
@@ -81,7 +85,6 @@ function prvs_question() {
     questions[currentQuestion].classList.remove('hidden');
     if (currentQuestion === 0)
         document.getElementById('prvs').classList.add('invisible');
-    console.log(currentQuestion);
 }
 function set_interval_and_execute(fn, intervalValue) {
     return setInterval(fn, intervalValue);
@@ -126,22 +129,56 @@ function tick() {
         finishButton.disabled = true;
     }
 }
-function check_answers() {
-    var res = 0;
-    for (var i = 0; i < quiz.questions.length; i++) {
-        if (input[i].value === "")
-            return -1;
-        if (input[i].value !== quiz.questions[i].answer)
-            res += quiz.questions[i].penalty;
-    }
-    return res;
-}
 function try_finish() {
     var date = new Date();
-    var penalty = check_answers();
-    if (penalty === -1)
+    if (!quick_check())
         return;
     clearInterval(interval);
+    var penalty = 0;
+    var corrString = localStorage.getItem('correctAnswers');
+    var wrongString = localStorage.getItem('wrongAnswers');
+    var correctAnswers = [];
+    var wrongAnswers = [];
+    if (corrString !== null) {
+        correctAnswers = JSON.parse(corrString);
+    }
+    else {
+        quiz.questions.forEach(function (element) {
+            correctAnswers.push(0);
+        });
+    }
+    if (wrongString !== null) {
+        wrongAnswers = JSON.parse(wrongString);
+    }
+    else {
+        quiz.questions.forEach(function (element) {
+            wrongAnswers.push(0);
+        });
+    }
+    for (var i = 0; i < quiz.questions.length; i++) {
+        var res = "<td>" + quiz.questions[i].content + "</td>";
+        res += "<td>" + input[i].value + "</td>";
+        res += "<td>" + quiz.questions[i].answer + "</td>";
+        var wasCorrect = true;
+        if (quiz.questions[i].answer !== input[i].value) {
+            penalty += quiz.questions[i].penalty;
+            res += "<td>" + quiz.questions[i].penalty + '</td>';
+            wasCorrect = false;
+            wrongAnswers[i]++;
+        }
+        else {
+            res += "<td>--</td>";
+            correctAnswers[i]++;
+        }
+        localStorage.setItem('wrongAnswers', JSON.stringify(correctAnswers));
+        localStorage.setItem('correctAnswers', JSON.stringify(wrongAnswers));
+        var table = document.getElementById('result-table');
+        var row = table.insertRow();
+        row.innerHTML = res;
+        if (!wasCorrect) {
+            row.classList.add('wrong-answer');
+        }
+    }
     document.getElementById('button-container').classList.add('hidden');
     document.getElementById('timer-container').classList.add('hidden');
     document.getElementById('questions').innerHTML = "";
@@ -174,6 +211,7 @@ function reset() {
     document.getElementById('timer-container').classList.remove('hidden');
     document.getElementById('after-quiz').classList.add("hidden");
     document.getElementById('time-display').innerText = "00:00:00";
+    document.getElementById('result-table').innerHTML = " <tr>\n\t<th>\n\t\tPytanie\n\t</th>\n\t<th>\n\t\tTwoja <br>odpowied\u017A\n\t</th>\n\t<th>\n\t\tPrawid\u0142owa <br>odpowied\u017A\n\t</th>\n\t<th>\n\t\tKara\n\t</th>\n</tr>";
 }
 function cancel() {
     clearInterval(interval);

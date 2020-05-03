@@ -25,6 +25,11 @@ let JSONQuiz =
 		"penalty": 9,
 		"content": "2+2^2*2+2",
 		"answer": "12"
+	},
+	{
+		"penalty": 69,
+		"content": "400 + 20",
+		"answer": "420"
 	}
 	]
 
@@ -78,7 +83,6 @@ function update_and_save_scores(x: number) {
 	populate_scoreboard()
 	localStorage.setItem('scores', JSON.stringify(scoreboard))
 
-	console.log(scoreboard)
 }
 
 function render_question(acc: string, q: Question, i: number) {
@@ -118,7 +122,6 @@ function prvs_question() {
 	if (currentQuestion === 0)
 		document.getElementById('prvs').classList.add('invisible')
 
-	console.log(currentQuestion)
 
 
 }
@@ -181,29 +184,66 @@ function tick() {
 }
 
 
-function check_answers() {
-	let res = 0
-
-	for (let i = 0; i < quiz.questions.length; i++) {
-		if ((input[i] as HTMLInputElement).value === ``)
-			return -1
-		if ((input[i] as HTMLInputElement).value !== quiz.questions[i].answer)
-			res += quiz.questions[i].penalty
-	}
-
-	return res
-}
 
 function try_finish() {
 	const date = new Date()
-
-	const penalty: number = check_answers()
-
-	if (penalty === -1)
+	if (!quick_check())
 		return
 
 
 	clearInterval(interval)
+
+	let penalty = 0
+
+	const corrString = localStorage.getItem('correctAnswers')
+	const wrongString = localStorage.getItem('wrongAnswers')
+	let correctAnswers: number[] = []
+	let wrongAnswers: number[] = []
+	if (corrString !== null) {
+		correctAnswers = JSON.parse(corrString)
+	} else {
+		quiz.questions.forEach(element => {
+			correctAnswers.push(0)
+		});
+	}
+	if (wrongString !== null) {
+		wrongAnswers = JSON.parse(wrongString)
+	} else {
+		quiz.questions.forEach(element => {
+			wrongAnswers.push(0)
+		});
+	}
+
+
+	for (let i = 0; i < quiz.questions.length; i++) {
+		let res = `<td>` + quiz.questions[i].content + `</td>`
+		res += `<td>` + (input[i] as HTMLInputElement).value + `</td>`
+		res += `<td>` + quiz.questions[i].answer + `</td>`
+
+		let wasCorrect: boolean = true
+
+		if (quiz.questions[i].answer !== (input[i] as HTMLInputElement).value) {
+			penalty += quiz.questions[i].penalty
+			res += `<td>` + quiz.questions[i].penalty + '</td>'
+			wasCorrect = false
+			wrongAnswers[i]++
+		} else {
+			res += `<td>--</td>`
+			correctAnswers[i]++
+		}
+
+		localStorage.setItem('wrongAnswers', JSON.stringify(correctAnswers))
+		localStorage.setItem('correctAnswers', JSON.stringify(wrongAnswers))
+
+		const table = document.getElementById('result-table');
+		const row = (table as HTMLTableElement).insertRow();
+		row.innerHTML = res
+
+		if (!wasCorrect) {
+			row.classList.add('wrong-answer')
+		}
+
+	}
 
 	document.getElementById('button-container').classList.add('hidden')
 	document.getElementById('timer-container').classList.add('hidden')
@@ -248,6 +288,21 @@ function reset() {
 	document.getElementById('timer-container').classList.remove('hidden')
 	document.getElementById('after-quiz').classList.add(`hidden`)
 	document.getElementById('time-display').innerText = `00:00:00`
+
+	document.getElementById('result-table').innerHTML = ` <tr>
+	<th>
+		Pytanie
+	</th>
+	<th>
+		Twoja <br>odpowiedź
+	</th>
+	<th>
+		Prawidłowa <br>odpowiedź
+	</th>
+	<th>
+		Kara
+	</th>
+</tr>`
 
 }
 
