@@ -139,14 +139,19 @@ export class Renderer {
 
 
             if (!questionsCorrect[i]) {
-                res += `<td class="wrong-answer">` + el.penalty + '</td>'
+                res += `<td>` + el.penalty + '</td>'
             } else {
                 res += `<td>--</td>`
             }
 
             const table = document.getElementById('result-table');
             const row = (table as HTMLTableElement).insertRow();
+
             row.innerHTML = res
+            if (!questionsCorrect[i])
+                row.classList.add('wrong-answer')
+
+
         })
     }
 

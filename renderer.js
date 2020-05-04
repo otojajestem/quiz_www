@@ -78,7 +78,7 @@ export class Renderer {
             res += `<td>` + this.input[i].value + `</td>`;
             res += `<td>` + el.answer + `</td>`;
             if (!questionsCorrect[i]) {
-                res += `<td class="wrong-answer">` + el.penalty + '</td>';
+                res += `<td>` + el.penalty + '</td>';
             }
             else {
                 res += `<td>--</td>`;
@@ -86,6 +86,8 @@ export class Renderer {
             const table = document.getElementById('result-table');
             const row = table.insertRow();
             row.innerHTML = res;
+            if (!questionsCorrect[i])
+                row.classList.add('wrong-answer');
         });
     }
     renderScore(score, questions, questionsCorrect) {
