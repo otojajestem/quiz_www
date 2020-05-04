@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "compile": "tsc -t es2016 main.ts"
+    }
+}
