@@ -7,10 +7,10 @@
     <title>QUIZ</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <script type="module" src='main.js'></script>
 </head>
 
-<body onload="setTimeout(0, initiate_scores())">
+<body>
 
 
     <div class='grid-container' id="main-container">
@@ -28,7 +28,7 @@
 
         <div class="intro-container card">
             <p>Rozwiąż ten quiz, zasady są proste: odpowiedz na pytania
-                a jak odpowiesz na wszystkie to zakończ quiz. Z fartem!
+                a jak odpowiesz na wszystkie to zakończ Z fartem!
             </p>
 
 
@@ -42,7 +42,7 @@
             </div>
 
             <div style="text-align: center;" id='start-container'>
-                <button class='function-button' onclick="start_quiz()">START QUIZ</button>
+                <button id='start-button' class='function-button'>START QUIZ</button>
             </div>
 
             <div id='questions'>
@@ -74,22 +74,30 @@
                     <p id='score-display'>21:37:00</p>
                 </div>
 
-                <button class="function-button" onclick='reset()'>Jeszcze raz</button>
+                <div class="grid-container" id="save-buttons">
+                    <div id='save-button'>
+                        <button id='save' class="function-button">zapisz wynik</button>
+                    </div>
+                    <div id='save-extra-button'>
+                        <button class="function-button" id='save-extra'>zapisz statystyki</button>
+                    </div>
+                </div>
+
             </div>
 
             <div class="grid-container hidden" id='button-container'>
                 <div id='container-cancel'>
-                    <button class='cancel' onclick='cancel()'>anuluj</button>
+                    <button class='cancel' id='cancel'>anuluj</button>
                 </div>
 
                 <div id="container-prvs">
-                    <button id="prvs" onclick="prvs_question()">Poprzednie</button>
+                    <button id="prvs">Poprzednie </button>
                 </div>
                 <div id="container-next">
-                    <button id="next" onclick="next_question()">Nastęne</button>
+                    <button id="next">Nastęne</button>
                 </div>
                 <div id="container-finish">
-                    <button id='finishButton' onclick="try_finish()" class="function-button">Zakończ</button>
+                    <button id="finish" class="function-button">Zakończ</button>
                 </div>
 
 

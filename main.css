@@ -199,6 +199,16 @@ height: 200px;
   grid-area: finish;
 }
 
+#save-button{
+  grid-area: save;
+  width: 100%;
+}
+
+#save-extra-button{
+  grid-area: save-extra;
+  width: 100%;
+}
+
 #scoreboard-container{
   width: 100%;
   grid-area: scoreboard;
@@ -212,6 +222,10 @@ height: 200px;
     'scoreboard question timer'
     'scoreboard . .';
   }
+  #save-buttons{
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'save save-extra';
+  }
   
   #button-container{
     grid-template-columns: 1fr 1fr 1fr;
@@ -222,6 +236,7 @@ height: 200px;
   }
 }
 
+
 @media screen and (max-width: 900px){
   #timer-container{
     display: none;
@@ -229,6 +244,11 @@ height: 200px;
   #button-container{
     grid-template-columns: 1fr 1fr;
     grid-template-areas: 'cancel cancel''prvs next' 'finish finish';
+  }
+
+  #save-buttons{
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'save save-extra';
   }
 
   #main-container{
@@ -246,7 +266,12 @@ height: 200px;
     'next'
     'finish';
   }
+
+  #save-buttons{
+    grid-template-areas: 'save' 'save-extra';
+  }
 }
+
 
 .question{
   transition: 100ms;
